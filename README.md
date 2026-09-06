@@ -3,8 +3,8 @@ This repository holds extra Vanilla RTX Add-Ons and Extensions, such as Glowing 
 
 You can download the latest release packages from my [CurseForge](https://www.curseforge.com/members/cubeir) or [MCPEDL](https://mcpedl.com/user/cubeir) posts, as well as from GitHub Releases which is built straight from this repo every time a pack's version is bumped. Every individual .mcpack is available on its own, plus an all-in-one .mcaddon bundle with everything in this repo ready to be imported to Minecraft at once.
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/Cubeir/Vanilla-RTX-Extras/build-release.yml?branch=master&label=build&logo=githubactions&logoColor=white)](https://github.com/Cubeir/Vanilla-RTX-Extras/actions/workflows/build-release.yml)
-[![Latest Release](https://img.shields.io/github/v/release/Cubeir/Vanilla-RTX-Extras?label=latest%20release&logo=github)](https://github.com/Cubeir/Vanilla-RTX-Extras/releases/latest)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Cubeir/Vanilla-RTX-Extras/build-release.yml?branch=master&label=build&logo=githubactions&logoColor=white&style=flat-square)](https://github.com/Cubeir/Vanilla-RTX-Extras/actions/workflows/build-release.yml)
+[![Latest Release](https://img.shields.io/github/v/release/Cubeir/Vanilla-RTX-Extras?label=latest%20release&logo=github&style=flat-square)](https://github.com/Cubeir/Vanilla-RTX-Extras/releases/latest)
 
 - **[Vanilla RTX Add-Ons:](https://mcpedl.com/vanilla-rtx-add-ons)** A series of smaller packs that can be modularly applied over Vanilla RTX to give certain blocks interesting non-vanilla properties.
 
