@@ -18,7 +18,7 @@ env:
   RELEASE_TITLE: Automated Build # <-- optional: prefix for each release's title, e.g. "Automated Build (5 August 2026)"
   BUNDLE_NAME_PREFIX: All-Vanilla-RTX-Extras-Bundle # <-- optional: name for the bundle .mcaddon (year.month.day is always appended)
   ENHANCEMENTS_DIR_NAME: __enhancements # <-- optional: change if this repo uses a different folder name
-  EXCLUDE_PATHS: "Ye-Olde-Resonator, __VAULT" # <-- optional: comma-separated repo-relative folders to fully ignore
+  EXCLUDE_PATHS: "__VAULT" # <-- optional: comma-separated repo-relative folders to fully ignore
   RELEASE_NOTES_FOOTER: |
     Download and import each individual `.mcpack`, or get the `.mcaddon` bundle which contains all of the `.mcpack` files in one package, importing the bundle imports all packs at once.
 
