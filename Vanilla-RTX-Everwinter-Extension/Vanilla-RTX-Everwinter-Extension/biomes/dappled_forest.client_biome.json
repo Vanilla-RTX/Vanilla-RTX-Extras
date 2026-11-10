@@ -1,0 +1,28 @@
+{
+    "format_version": "1.26.50",
+    "minecraft:client_biome": {
+        "description": {
+            "identifier": "minecraft:dappled_forest"
+        },
+        "components": {
+            "minecraft:fog_appearance": {
+                "fog_identifier": "minecraft_rtx:fog_everwinter"
+            },
+            "minecraft:grass_appearance": {
+                "color": "#E5F6FF"
+            },
+            "minecraft:dry_foliage_color": {
+                "color": "#E5F6FF"
+            },
+            "minecraft:foliage_appearance": {
+                "color": "#E5F6FF"
+            },
+            "minecraft:sky_color": {
+                "sky_color": "#B1C2E9"
+            },
+            "minecraft:water_appearance": {
+                "surface_color": "#004951"
+            }
+        }
+    }
+}

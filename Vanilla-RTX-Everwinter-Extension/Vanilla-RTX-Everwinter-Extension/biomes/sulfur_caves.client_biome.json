@@ -1,0 +1,29 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:client_biome": {
+    "description": {
+      "identifier": "minecraft:sulfur_caves"
+    },
+    "components": {
+      "minecraft:fog_appearance": {
+        "fog_identifier": "minecraft_rtx:fog_everwinter"
+      },
+      "minecraft:water_appearance": {
+        "surface_color": "#00C077"
+      },
+      "minecraft:ambient_sounds": {
+        "underwater_addition": {
+          "asset": "ambient.underwater.additions",
+          "chance": 0.01
+        },
+        "underwater_loop": "ambient.underwater.loop"
+      },
+      "minecraft:biome_music": {
+        "music_definition": "sulfur_caves"
+      },
+      "minecraft:grass_appearance": {
+        "color": "#E5F6FF"
+      }
+    }
+  }
+}
