@@ -2,7 +2,7 @@
   "format_version": 2,
   "header": {
     "name": "Vanilla RTX Before the Updates",
-    "description": "Cubeir's personally modified variant of Vanilla RTX to bring back Minecraft RTX vibes like its twenty-twenty!\nUse alongside Supervanilla RTX shader mod!",
+    "description": "Cubeir's personal modifications to Minecraft's vanilla texture.\nRecommended to use alongside Supervanilla RTX shader mod from the app!",
     "uuid": "3aa1cf49-aeaa-49d6-8474-fc5034f2436a",
     "pack_scope": "any",
     "version": [
@@ -36,7 +36,7 @@
       "Cubeir",
       "Special thanks to thousands of Patreon, and later Ko-Fi members of Cubeir"
     ],
-    "license": "https://github.com/Cubeir/vanilla-rtx/blob/master/LICENSE.txt",
+    "license": "https://github.com/vanilla-rtx/Vanilla-RTX/blob/master/LICENSE.txt",
     "url": "http://curseforge.com/minecraft-bedrock/texture-packs/vanilla-rtx"
   }
 }
