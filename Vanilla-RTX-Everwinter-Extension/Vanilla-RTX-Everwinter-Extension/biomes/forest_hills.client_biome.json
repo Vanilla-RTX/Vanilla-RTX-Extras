@@ -9,7 +9,7 @@
         "fog_identifier": "minecraft_rtx:fog_everwinter"
       },
       "minecraft:water_appearance": {
-        "surface_color": "#0067CE"
+        "surface_color": "#007CDB"
       },
       "minecraft:ambient_sounds": {
         "underwater_addition": {

@@ -9,7 +9,7 @@
         "fog_identifier": "minecraft_rtx:fog_everwinter"
       },
       "minecraft:water_appearance": {
-        "surface_color": "#3B6CD1"
+        "surface_color": "#007CDB"
       },
       "minecraft:dry_foliage_color": {
         "color": "#E5F6FF"

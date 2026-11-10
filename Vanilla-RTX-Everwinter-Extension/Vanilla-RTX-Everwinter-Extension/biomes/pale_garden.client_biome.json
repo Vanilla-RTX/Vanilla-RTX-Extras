@@ -6,13 +6,13 @@
     },
     "components": {
       "minecraft:sky_color": {
-        "sky_color": "#b9b9b9"
+        "sky_color": "#A5B7C9"
       },
       "minecraft:fog_appearance": {
         "fog_identifier": "minecraft_rtx:fog_everwinter"
       },
       "minecraft:water_appearance": {
-        "surface_color": "#0059BF"
+        "surface_color": "#007CDB"
       },
       "minecraft:biome_music": {
         "volume_multiplier": 0
