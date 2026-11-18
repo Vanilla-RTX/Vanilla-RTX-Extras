@@ -53,7 +53,12 @@ Env vars (all optional, set by the workflow):
   RELEASE_NOTES_FOOTER   optional static text appended to the end of every
                          release's notes (e.g. install instructions, a
                          support link). Empty by default.
+  INDEX_FILE_NAME        optional file name for a machine-readable index of
+                         every pack in the build (written to dist/ beside
+                         the .mcpacks, so it ships as a release asset).
+                         Empty by default (no index). See write_index.
 """
+import hashlib
 import json
 import os
 import re
@@ -70,6 +75,8 @@ DATE_TAG_RE = re.compile(r"^release-\d{4}-\d{2}-\d{2}$")
 ENHANCEMENTS_DIR_NAME = os.environ.get("ENHANCEMENTS_DIR_NAME", "__enhancements")
 BUNDLE_NAME_PREFIX = os.environ.get("BUNDLE_NAME_PREFIX", "All-Packs")
 RELEASE_NOTES_FOOTER = os.environ.get("RELEASE_NOTES_FOOTER", "").strip()
+INDEX_FILE_NAME = os.environ.get("INDEX_FILE_NAME", "").strip()
+INDEX_FORMAT = 1
 
 EXCLUDE_PREFIXES = [
     tuple(PurePosixPath(p.strip()).parts)
@@ -284,6 +291,74 @@ def write_release_notes(root: Path, built: dict, changes: list, note: str, full_
     (root / "RELEASE_NOTES.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def resolve_lang_key(pack_root: Path, value):
+    """A manifest may name itself "pack.name" / "pack.description" and keep the real text in
+    texts/en_US.lang. Returns the resolved text, or the value unchanged when it isn't a key or
+    no .lang file defines it."""
+    if not isinstance(value, str) or value not in ("pack.name", "pack.description"):
+        return value
+    texts = pack_root / "texts"
+    for lang in [texts / "en_US.lang", texts / "en_GB.lang", *sorted(texts.glob("*.lang"))]:
+        if not lang.is_file():
+            continue
+        for line in lang.read_text(encoding="utf-8-sig", errors="replace").splitlines():
+            key, sep, text = line.partition("=")
+            if sep and key.strip() == value:
+                return text.split("\t#", 1)[0].strip()
+    return value
+
+
+def sha256_of(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def write_index(root: Path, packs: list, built: dict, dist_dir: Path, tag: str):
+    """Writes INDEX_FILE_NAME into dist/: one entry per built pack, carrying everything an
+    installer needs to decide what to offer before downloading anything - identity (header and
+    first module uuid), the version, the release asset's file name, size and sha256, display
+    name and description (lang keys resolved), pack_scope, subpacks, and the repo folder the
+    pack lives under (group). `tag` is the release it belongs to, so a file name can always be
+    turned back into a download URL even after "latest" has moved on."""
+    entries = []
+    for pack_id, pack_root in packs:
+        zip_path, _ = built[pack_id]
+        manifest = json.loads((pack_root / "manifest.json").read_text(encoding="utf-8"))
+        header = manifest.get("header", {})
+        modules = manifest.get("modules") or [{}]
+        rel_parts = pack_root.relative_to(root).parts
+        entries.append({
+            "id": pack_id,
+            "file": zip_path.name,
+            "size": zip_path.stat().st_size,
+            "sha256": sha256_of(zip_path),
+            "uuid": header.get("uuid"),
+            "module_uuid": modules[0].get("uuid"),
+            "version": header.get("version"),
+            "name": resolve_lang_key(pack_root, header.get("name")),
+            "description": resolve_lang_key(pack_root, header.get("description")),
+            "pack_scope": header.get("pack_scope"),
+            "group": rel_parts[0] if len(rel_parts) > 1 else None,
+            "subpacks": [
+                {"folder_name": sp.get("folder_name"), "name": sp.get("name")}
+                for sp in manifest.get("subpacks") or []
+            ],
+        })
+
+    index = {
+        "format": INDEX_FORMAT,
+        "tag": tag,
+        "built_utc": NOW.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "packs": entries,
+    }
+    index_path = dist_dir / INDEX_FILE_NAME
+    index_path.write_text(json.dumps(index, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Wrote {index_path.name} ({len(entries)} pack(s))")
+
+
 def build_everything(root: Path, changes: list, note: str):
     dist_dir = root / "dist"
     work_dir = root / ".build-tmp"
@@ -313,6 +388,9 @@ def build_everything(root: Path, changes: list, note: str):
     current_tag = f"release-{NOW.strftime('%Y-%m-%d')}"
     full_changelog_line = build_full_changelog_line(root, current_tag)
     write_release_notes(root, built, changes, note, full_changelog_line)
+
+    if INDEX_FILE_NAME:
+        write_index(root, packs, built, dist_dir, current_tag)
 
     shutil.rmtree(work_dir, ignore_errors=True)
     set_output("pack_count", str(len(built)))
